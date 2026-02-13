@@ -1,0 +1,132 @@
+.playlists-section {
+  margin-bottom: 40px;
+}
+
+.playlists-section h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.playlist-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.playlist-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(131, 56, 236, 0.3);
+  transform: translateY(-4px);
+}
+
+.playlist-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+
+.playlist-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+/* Song table */
+.song-table-container {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 16px 0;
+}
+
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.song-table thead {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.song-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8338ec;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.song-table th:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+.song-table th:last-child {
+  text-align: right;
+}
+
+.song-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.song-table tbody tr:hover {
+  background: rgba(131, 56, 236, 0.1);
+}
+
+.song-table tbody tr.active {
+  background: linear-gradient(
+    90deg,
+    rgba(131, 56, 236, 0.2),
+    rgba(255, 0, 110, 0.1)
+  );
+}
+
+.song-table td {
+  padding: 16px;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.song-table td:first-child {
+  text-align: center;
+  font-weight: 600;
+  color: #8338ec;
+}
+
+.song-table tbody tr:hover td:first-child,
+.song-table tbody tr.active td:first-child {
+  color: #ff006e;
+}
+
+.song-table .song-name {
+  color: #fff;
+  font-weight: 500;
+}
+
+.song-table tbody tr:hover .song-name,
+.song-table tbody tr.active .song-name {
+  color: #fff;
+}
+
+.song-table td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,24 @@
+.favourites-page {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.favourites-content {
+  margin-top: 20px;
+}
