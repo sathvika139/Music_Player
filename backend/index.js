@@ -19,10 +19,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------- APP ----------
-const app = express();
-app.use(cors());
-app.use(express.json());
+const cors = require("cors");
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://music-player-six-drab.vercel.app/",
+    ],
+    credentials: true,
+  }),
+);
+
+app.use(express.json());
 // ---------- DATABASE ----------
 //connectDB();
 
