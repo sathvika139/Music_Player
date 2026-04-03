@@ -70,11 +70,20 @@ export const login = async (req, res) => {
       email,
     ]);
 
+    console.log("LOGIN BODY:", req.body);
+    console.log("DB RESULT:", rows);
+
     if (rows.length === 0) {
       return res.status(400).json({ message: "User not found" });
     }
 
     const user = rows[0];
+
+    if (!user || !user.password) {
+      // ✅ ADDED SAFETY
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
