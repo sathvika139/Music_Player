@@ -22,9 +22,10 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    const [exist] = await db.query("SELECT id FROM users WHERE email = ?", [
-      email,
-    ]);
+    const { rows: exist } = await db.query(
+      "SELECT id FROM users WHERE email = $1",
+      [email],
+    );
 
     if (exist.length > 0) {
       return res.status(400).json({ message: "User already exists" });
@@ -32,18 +33,20 @@ export const signup = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    const [result] = await db.query(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+    const result = await db.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
       [name, email, hashed],
     );
 
-    const token = createToken(result.insertId);
+    const userId = result.rows[0].id;
+
+    const token = createToken(userId);
 
     res.status(201).json({
       message: "User created",
       token,
       user: {
-        id: result.insertId,
+        id: userId,
         name,
         email,
       },
@@ -63,7 +66,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Email and password required" });
     }
 
-    const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [
+    const { rows } = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
@@ -103,14 +106,15 @@ export const getMe = async (req, res) => {
   });
 };
 
-/* ================= FORGOT PASSWORD (FIXED) ================= */
+/* ================= FORGOT PASSWORD ================= */
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const [users] = await db.query("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    const { rows: users } = await db.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email],
+    );
 
     if (users.length === 0) {
       return res.status(404).json({ message: "No user found" });
@@ -124,11 +128,10 @@ export const forgotPassword = async (req, res) => {
       .update(resetToken)
       .digest("hex");
 
-    // ✅ FIX: use DATETIME (not milliseconds)
     const expires = new Date(Date.now() + 10 * 60 * 1000);
 
     await db.query(
-      "UPDATE users SET reset_password_token=?, reset_password_expires=? WHERE id=?",
+      "UPDATE users SET reset_password_token=$1, reset_password_expires=$2 WHERE id=$3",
       [hashedToken, expires, user.id],
     );
 
@@ -136,7 +139,7 @@ export const forgotPassword = async (req, res) => {
 
     res.json({
       message: "Reset link generated",
-      resetUrl, // dev mode only
+      resetUrl,
     });
   } catch (err) {
     console.error("FORGOT PASSWORD ERROR:", err);
@@ -144,7 +147,7 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-/* ================= RESET PASSWORD (FIXED) ================= */
+/* ================= RESET PASSWORD ================= */
 export const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -158,9 +161,8 @@ export const resetPassword = async (req, res) => {
 
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-    // ✅ FIX: compare with NOW()
-    const [users] = await db.query(
-      "SELECT * FROM users WHERE reset_password_token=? AND reset_password_expires > NOW()",
+    const { rows: users } = await db.query(
+      "SELECT * FROM users WHERE reset_password_token=$1 AND reset_password_expires > NOW()",
       [hashedToken],
     );
 
@@ -171,7 +173,7 @@ export const resetPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await db.query(
-      "UPDATE users SET password=?, reset_password_token=NULL, reset_password_expires=NULL WHERE id=?",
+      "UPDATE users SET password=$1, reset_password_token=NULL, reset_password_expires=NULL WHERE id=$2",
       [hashedPassword, users[0].id],
     );
 
@@ -188,7 +190,7 @@ export const editProfile = async (req, res) => {
     const { name, avatar } = req.body;
     const userId = req.user.id;
 
-    await db.query("UPDATE users SET name = ?, avatar = ? WHERE id = ?", [
+    await db.query("UPDATE users SET name=$1, avatar=$2 WHERE id=$3", [
       name,
       avatar,
       userId,
