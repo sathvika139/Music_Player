@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext";
-import { useAudio } from "../../hooks/useAudio";
+import { UseAudio } from "../../hooks/UseAudio";
 import Sidebar from "../common/Sidebar";
 import Player from "../player/Player";
 import SongList from "../player/SongList";
@@ -8,7 +8,7 @@ import "./Favourites.css";
 
 function Favourites() {
   const { state } = usePlayer();
-  const { playSong } = useAudio();
+  const { playSong } = UseAudio();
 
   const [favourites] = useState([]);
 

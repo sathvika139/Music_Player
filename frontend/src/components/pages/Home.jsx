@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext";
-import { useAudio } from "../../hooks/useAudio";
+import { useAudio } from "../../hooks/UseAudio";
 import { useSongs } from "../../hooks/useSongs";
 
 import Sidebar from "../common/Sidebar";

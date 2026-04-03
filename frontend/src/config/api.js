@@ -1,12 +1,12 @@
-export const API_BASE_URL = "http://localhost:5000";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const API_ENDPOINTS = {
-  songs: `${API_BASE_URL}/api/songs`,
+  songs: `${API_BASE_URL}/songs`,
   auth: {
-    login: `${API_BASE_URL}/api/auth/login`,
-    register: `${API_BASE_URL}/api/auth/register`,
-    logout: `${API_BASE_URL}/api/auth/logout`,
+    login: `${API_BASE_URL}/auth/login`,
+    register: `${API_BASE_URL}/auth/register`,
+    logout: `${API_BASE_URL}/auth/logout`,
   },
-  favourites: `${API_BASE_URL}/api/favourites`,
-  search: `${API_BASE_URL}/api/search`,
+  favourites: `${API_BASE_URL}/favourites`,
+  search: `${API_BASE_URL}/search`,
 };
