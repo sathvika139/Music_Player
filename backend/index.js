@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-//import cors from "cors";
+import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
 import { protect } from "./middleware/authMiddleware.js";
 import favoriteRoutes from "./routes/favoriteRoutes.js";
+const app = express();
 
 // ---------- CONFIG ----------
 dotenv.config();
@@ -19,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------- APP ----------
-const cors = require("cors");
+//const cors = require("cors");
 
 app.use(
   cors({
@@ -44,7 +45,9 @@ app.get("/api", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 // ---------- SONG ROUTES ----------
-app.use("/api/songs", songRoutes); // ← CHANGED: Added 's' here
+app.use("/api/songs", songRoutes);
+
+app.use("/api/favorites", favoriteRoutes);
 
 // ---------- 404 HANDLER ----------
 app.use((req, res) => {
@@ -55,6 +58,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
-// Add this line with your other app.use routes
-app.use("/api/favorites", favoriteRoutes);
