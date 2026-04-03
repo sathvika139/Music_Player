@@ -12,51 +12,51 @@ import Search from "./components/pages/Search";
 import Favourites from "./components/pages/Favourites";
 import Player from "./components/player/Player";
 import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
+//import Register from "./components/auth/Register";
+import Signup from "./components/auth/Register";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  React.useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(() => {
+    return !!localStorage.getItem("token");
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
-    window.location.href = "/login";
   };
 
+  // If not logged in, ONLY show Auth routes (No Sidebar/Logout button)
   if (!isAuthenticated) {
     return (
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route
+            path="/login"
+            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route
+            path="/register"
+            element={<Signup setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     );
   }
 
+  // If logged in, show the main application layout
   return (
     <Router>
       <div className="app">
-        {/* Sidebar */}
         <Sidebar />
-
-        {/* Main Content */}
         <div className="main-content">
-          {/* Top Bar with Logout */}
           <div className="top-bar">
+            <div className="user-profile"></div>
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </div>
 
-          {/* Scrollable Content */}
           <div className="scrollable-content">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -68,7 +68,6 @@ function App() {
           </div>
         </div>
 
-        {/* Player Footer */}
         <div className="player-container">
           <Player />
         </div>

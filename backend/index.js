@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/authRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
 import { protect } from "./middleware/authMiddleware.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js";
 
 // ---------- CONFIG ----------
 dotenv.config();
@@ -45,3 +46,6 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+// Add this line with your other app.use routes
+app.use("/api/favorites", favoriteRoutes);

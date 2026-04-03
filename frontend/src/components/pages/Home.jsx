@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext";
 import { useAudio } from "../../hooks/useAudio";
 import { useSongs } from "../../hooks/useSongs";
+
 import Sidebar from "../common/Sidebar";
 import Player from "../player/Player";
 import SongList from "../player/SongList";
 import PlaylistGrid from "../player/PlaylistGrid";
+
 import "./Home.css";
 
 function Home() {
-  const isAuthenticated = Boolean(localStorage.getItem("token"));
-
   const { state } = usePlayer();
   const { playSong } = useAudio();
   const { songs, loading, error } = useSongs();
+
   const [showProfile, setShowProfile] = useState(false);
 
   const handleSongClick = (song, index) => {
@@ -29,10 +30,7 @@ function Home() {
   if (loading && songs.length === 0) {
     return (
       <div className="home-container">
-        <Sidebar
-          onLogout={handleLogout}
-          onProfileClick={() => setShowProfile(true)}
-        />
+        <Sidebar onLogout={handleLogout} />
         <div className="main-wrapper">
           <div className="loading">
             <div className="spinner"></div>
@@ -46,10 +44,7 @@ function Home() {
   if (error) {
     return (
       <div className="home-container">
-        <Sidebar
-          onLogout={handleLogout}
-          onProfileClick={() => setShowProfile(true)}
-        />
+        <Sidebar onLogout={handleLogout} />
         <div className="main-wrapper">
           <div className="error">
             <p>Error: {error}</p>
@@ -62,34 +57,15 @@ function Home() {
 
   return (
     <div className="home-container">
-      <Sidebar />
+      <Sidebar
+        onLogout={handleLogout}
+        onProfileClick={() => setShowProfile(true)}
+      />
 
       <div className="main-wrapper">
         <main className="main-content">
           <header className="main-header">
             <h1>Playlists</h1>
-            <div className="auth-actions">
-              {isAuthenticated ? (
-                <button className="logout-btn" onClick={handleLogout}>
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="login-btn"
-                    onClick={() => (window.location.href = "/login")}
-                  >
-                    Login
-                  </button>
-                  <button
-                    className="signup-btn"
-                    onClick={() => (window.location.href = "/signup")}
-                  >
-                    Sign Up
-                  </button>
-                </>
-              )}
-            </div>
           </header>
 
           <section className="playlists-section">
@@ -117,41 +93,23 @@ function Home() {
   );
 }
 
-// Profile Modal Component
+/* ---------------- PROFILE MODAL ---------------- */
+
 function ProfileModal({ onClose }) {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : { name: "", email: "" };
   });
+
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(user);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8000/api/users/profile", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
-      }
-
-      const data = await response.json();
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setUser(data.user);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile");
-    }
+    localStorage.setItem("user", JSON.stringify(formData));
+    setUser(formData);
+    setIsEditing(false);
   };
 
   return (
@@ -175,7 +133,6 @@ function ProfileModal({ onClose }) {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  required
                 />
               </div>
 
@@ -187,7 +144,6 @@ function ProfileModal({ onClose }) {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  required
                 />
               </div>
 
@@ -199,22 +155,20 @@ function ProfileModal({ onClose }) {
                 >
                   Cancel
                 </button>
+
                 <button type="submit" className="btn-save">
-                  Save Changes
+                  Save
                 </button>
               </div>
             </form>
           ) : (
             <div className="profile-info">
-              <div className="info-item">
-                <label>Name</label>
-                <p>{user.name}</p>
-              </div>
-
-              <div className="info-item">
-                <label>Email</label>
-                <p>{user.email}</p>
-              </div>
+              <p>
+                <strong>Name:</strong> {user.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
 
               <button onClick={() => setIsEditing(true)} className="btn-edit">
                 Edit Profile

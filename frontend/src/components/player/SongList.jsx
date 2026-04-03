@@ -45,8 +45,6 @@ function SongList({ songs, currentSong, onSongClick, isPlaying }) {
                   <div className="song-name">
                     <span>{song.name}</span>
                   </div>
-
-                  <span>{song.name}</span>
                 </div>
 
                 <div className="song-artist">{song.artist}</div>

@@ -52,10 +52,13 @@ export const searchSongs = async (req, res) => {
       });
     }
 
+    // Use LOWER() on both the column and the input for case-insensitive matching
     const [songs] = await db.query(
       `
       SELECT * FROM songs 
-      WHERE name LIKE ? OR artist_name LIKE ? OR album_name LIKE ?
+      WHERE LOWER(name) LIKE LOWER(?) 
+         OR LOWER(artist_name) LIKE LOWER(?) 
+         OR LOWER(album_name) LIKE LOWER(?)
       ORDER BY releasedate DESC
     `,
       [`%${q}%`, `%${q}%`, `%${q}%`],
@@ -75,7 +78,6 @@ export const searchSongs = async (req, res) => {
     });
   }
 };
-
 // Get song by ID
 export const getSongById = async (req, res) => {
   try {

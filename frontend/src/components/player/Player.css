@@ -29,7 +29,10 @@
   border-radius: 4px;
   overflow: hidden;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .song-thumbnail img {
@@ -73,6 +76,9 @@
   height: 48px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .no-song-text {
@@ -123,19 +129,24 @@
 }
 
 .btn-play {
-  width: 40px;
-  height: 40px;
+  width: 50px; /* Made it slightly larger for better UI */
+  height: 50px;
   background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
   border: none;
   border-radius: 50%;
-  color: #fff;
+  color: #ffffff; /* Explicitly set icon color to white */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.2rem; /* Size of the play/pause icon */
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
   transition: all 0.2s ease;
-  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.3);
+}
+
+.btn-play i {
+  font-size: 1.2rem;
+  margin-left: 2px; /* Small adjustment to visually center the play triangle */
 }
 
 .btn-play:hover {
@@ -228,4 +239,33 @@
   .player-volume {
     justify-content: center;
   }
+}
+/* Ensure the volume slider looks okay */
+.player-volume input[type="range"] {
+  cursor: pointer;
+}
+.control-buttons i {
+  color: #ffffff;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+.favorite-button {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favorite-button i.active {
+  color: #ec4899; /* Pink glow when active */
+  text-shadow: 0 0 10px rgba(236, 72, 153, 0.6);
+}
+
+.favorite-button:hover {
+  transform: scale(1.2);
 }
