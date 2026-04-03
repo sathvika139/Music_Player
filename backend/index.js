@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";
+//import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -25,7 +25,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "http://music-player-six-drab.vercel.app/",
+      "https://music-player-six-drab.vercel.app",
     ],
     credentials: true,
   }),
