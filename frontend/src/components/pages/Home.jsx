@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext";
 import { useAudio } from "../../hooks/UseAudio";
-import { useSongs } from "../../hooks/useSongs";
+import { UseSongs } from "../../hooks/UseSongs";
 
 import Sidebar from "../common/Sidebar";
 import Player from "../player/Player";
@@ -13,7 +13,7 @@ import "./Home.css";
 function Home() {
   const { state } = usePlayer();
   const { playSong } = useAudio();
-  const { songs, loading, error } = useSongs();
+  const { songs, loading, error } = UseSongs();
 
   const [showProfile, setShowProfile] = useState(false);
 

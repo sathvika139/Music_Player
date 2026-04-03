@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { usePlayer } from "../context/PlayerContext";
 import { ACTIONS } from "../context/PlayerContext";
 
-export function useSongs() {
+export function UseSongs() {
   const { state, dispatch } = usePlayer();
 
   // Cloudinary songs list
