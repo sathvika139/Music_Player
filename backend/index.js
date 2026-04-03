@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import connectDB from "./config/connectDB.js";
+import "./config/connectDB.js";
 import authRoutes from "./routes/authRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
 import { protect } from "./middleware/authMiddleware.js";
@@ -24,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 // ---------- DATABASE ----------
-connectDB();
+//connectDB();
 
 // ---------- TEST ROUTE ----------
 app.get("/api", (req, res) => {
