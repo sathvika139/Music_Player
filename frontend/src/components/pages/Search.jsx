@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext";
-import { useAudio } from "../../hooks/UseAudio";
-import { UseSongs } from "../../hooks/UseSongs";
+import { useAudio } from "useAudio../../hooks/useAudio";
+import { useSongs } from "../../hooks/useSongs";
 import Sidebar from "../common/Sidebar";
 import Player from "../player/Player";
 import SongList from "../player/SongList";
@@ -9,8 +9,8 @@ import "./Search.css";
 
 function Search() {
   const { state } = usePlayer();
-  const { playSong } = UseAudio();
-  const { searchSongs, songs, loading } = UseSongs();
+  const { playSong } = useAudio();
+  const { searchSongs, songs, loading } = useSongs();
   const [searchQuery, setSearchQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 

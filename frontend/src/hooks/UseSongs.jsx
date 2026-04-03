@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { usePlayer } from "../context/PlayerContext";
 import { ACTIONS } from "../context/PlayerContext";
 
-export function UseSongs() {
+export function useSongs() {
   const { state, dispatch } = usePlayer();
 
   // Cloudinary songs list
@@ -54,3 +54,4 @@ export function UseSongs() {
     error: null,
   };
 }
+export default useSongs;

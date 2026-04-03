@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { usePlayer } from "../../context/PlayerContext";
-import { useAudio } from "../../hooks/UseAudio";
+import { useAudio } from "useAudio../../hooks/useAudio";
 import "./Player.css";
 
 function Player() {
