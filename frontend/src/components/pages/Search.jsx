@@ -9,7 +9,7 @@ import "./Search.css";
 
 function Search() {
   const { state } = usePlayer();
-  const { playSong } = useAudio();
+  const { playSong } = UseAudio();
   const { searchSongs, songs, loading } = UseSongs();
   const [searchQuery, setSearchQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);

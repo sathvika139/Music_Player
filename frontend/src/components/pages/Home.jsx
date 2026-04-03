@@ -12,7 +12,7 @@ import "./Home.css";
 
 function Home() {
   const { state } = usePlayer();
-  const { playSong } = useAudio();
+  const { playSong } = UseAudio();
   const { songs, loading, error } = UseSongs();
 
   const [showProfile, setShowProfile] = useState(false);
